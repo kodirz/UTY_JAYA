@@ -54,6 +54,14 @@ function getAdminApp() {
   }
 
   // Metode 2: Fallback ke Environment Variables (misal untuk deployment Vercel/Netlify)
+  if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
+    console.log("ℹ️ Menginisialisasi Firebase Admin SDK menggunakan JSON String dari Env Var.");
+    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
+    return initializeApp({
+      credential: cert(serviceAccount),
+    });
+  }
+
   const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
   let privateKey = process.env.FIREBASE_PRIVATE_KEY;
 
